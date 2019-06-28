@@ -1,0 +1,50 @@
+<!doctype html>
+
+<html class='no-js' lang='en'>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+
+    <base href='./'>
+    <title>SMW</title>
+
+    <meta name='description' content=''>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+
+    <style>
+        .coin {
+            display: inline-block;
+            width: 48px;
+            height: 16px;
+            /*background: url('coin.png') no-repeat;*/
+            -webkit-transform: scale(4, 4);
+            
+            image-rendering: -moz-crisp-edges;
+            image-rendering: -o-crisp-edges;
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: pixelated;
+            -ms-interpolation-mode: nearest-neighbor;
+
+            -webkit-animation: play 600ms steps(4) forwards infinite;
+        }
+
+        @-webkit-keyframes play {
+            100% { 
+                background-position: -48px 0; 
+            }
+        }        
+    </style>
+</head>
+
+<body>
+    <main>
+        <!-- <div class="coin"></div> -->
+
+        <img src="coin.png" class="coin">
+    </main>
+
+
+
+</body>
+</html>
