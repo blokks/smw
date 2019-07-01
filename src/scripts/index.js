@@ -30,16 +30,14 @@ class Game {
 
 		this.world.collisionSolver.on('collision', this.collisionHandler);
 
+		console.log('1');
 		await loadSpritesheet();
 		await loadSounds();
 
 		this.musicId = playSound('music');
 
-		this.spawnMario();
-		this.spawnKoopa();
-
-		// setTimeout(() => this.spawnMario(), 2500);
-		// setTimeout(() => this.spawnGumba(), 3000);
+		setTimeout(this.spawnMario, 2500);
+		setTimeout(this.spawnKoopa, 3000);
 	}
 
 	spawnMario = () => {
@@ -58,6 +56,8 @@ class Game {
 				koopa = new Koopa();
 			}
 
+			koopa.player = this.player;
+
 			this.world.addGameObject(koopa);
 			setTimeout(this.spawnKoopa, Math.random() * 3000 + 1000);
 		}
@@ -65,8 +65,10 @@ class Game {
 
 	spawnGumba = () => {
 		if (this.world.playing) {
-			const gameobject = new Gumba();
-			this.world.addGameObject(gameobject);
+			const gumba = new Gumba();
+			gumba.player = this.player;
+
+			this.world.addGameObject(gumba);
 
 			setTimeout(this.spawnGumba, Math.random() * 6000 + 2000);
 		}
@@ -74,8 +76,10 @@ class Game {
 
 	spawnBulletBill = () => {
 		if (this.world.playing) {
-			const bullet = new BulletBill();
-			this.world.addGameObject(bullet);
+			const bill = new BulletBill();
+			bill.player = this.player;
+
+			this.world.addGameObject(bill);
 
 			const timeout = Math.random() * 9000 + 4000;
 			setTimeout(this.spawnBulletBill, timeout);
@@ -108,6 +112,6 @@ class Game {
 	gameEndHandler = () => {};
 }
 
-// window.addEventListener('click', () => {
-const game = new Game();
-// });
+window.addEventListener('click', () => {
+	const game = new Game();
+});

@@ -1,6 +1,5 @@
 import { Rectangle, Point } from 'game/math';
 import { animation, texture } from 'game/assets/spritesheet';
-import { play as playSound } from 'game/assets/sounds';
 
 const gravity = 1.1;
 
@@ -17,11 +16,11 @@ export default class GameObject {
 
 	id = 'Untitled';
 	sprite;
-	currentAnimation = null;
-	currentFrame = null;
+	type;
+	currentAnimation;
+	currentFrame;
 	options = GameObject.OPTION_APPLY_GRAVITY;
 	state = GameObject.STATE_ALIVE;
-	type = GameObject.TYPE_ENEMY;
 	destroyed = false;
 	enabled = false;
 
@@ -88,20 +87,6 @@ export default class GameObject {
 	}
 
 	onCollision(gameobject) {
-		if (gameobject.isBullet) {
-			const horizontal = this.bounds.left <= gameobject.bounds.right;
-			if (horizontal) {
-				this.isAlive = false;
-				this.isStatic = true;
-
-				this.speed.x = 0;
-				playSound('stomp');
-
-				setTimeout(() => {
-					this.isGarbage = true;
-				}, 350);
-			}
-		}
 	}
 
 	get applyGravity() {

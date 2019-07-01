@@ -79,6 +79,8 @@ export default class Mario extends GameObject {
 	}
 
 	onCollision(gameobject) {
+		super.onCollision(gameobject);
+
 		if (!gameobject.isPlayer) {
 			const horizontal = this.bounds.right >= gameobject.bounds.left;
 			const vertical = this.bounds.bottom <= gameobject.bounds.centerY;

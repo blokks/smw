@@ -1,16 +1,15 @@
 import { AnimatedSprite } from 'pixi.js';
-import { GameObject } from 'game/core';
+import { Enemy } from 'game/gameobjects';
 
 import { play as playSound } from 'game/assets/sounds';
 import { texture } from 'game/assets/spritesheet';
 
-export default class BulletBill extends GameObject {
+export default class BulletBill extends Enemy {
 	initialize() {
 		super.initialize();
 
-		this.type = GameObject.TYPE_ENEMY;
+		this.id = 'BulletBill';
 		this.applyGravity = false;
-
 		this.bounds.x = 250;
 		this.bounds.y = -1 * (Math.random() * 10 + 50);
 		this.bounds.width = 16;
@@ -24,19 +23,16 @@ export default class BulletBill extends GameObject {
 		playSound('swooper');
 	}
 
-	onCollision(gameobject) {
-		if (gameobject.isPlayer) {
-			const vertical = this.bounds.centerY >= gameobject.bounds.bottom;
+	playerCollisionHandler(player) {
+		const vertical = this.bounds.centerY >= player.bounds.bottom;
+		if (vertical) {
+			this.isAlive = false;
+			this.applyGravity = true;
 
-			if (vertical) {
-				this.isAlive = false;
-				this.applyGravity = true;
+			this.speed.x = 0;
+			this.speed.y = -5;
 
-				this.speed.x = 0;
-				this.speed.y = -5;
-
-				playSound('stomp');
-			}
+			playSound('stomp');
 		}
 	}
 }

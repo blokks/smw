@@ -1,18 +1,16 @@
 import { AnimatedSprite } from 'pixi.js';
-import { GameObject } from 'game/core';
+import { Enemy } from 'game/gameobjects';
 
 import { play as playSound } from 'game/assets/sounds';
 import { animation } from 'game/assets/spritesheet';
 
-export default class Gumba extends GameObject {
+export default class Gumba extends Enemy {
 	static STATE_FALLING = 0x0008;
 
 	initialize() {
 		super.initialize();
 
 		this.id = 'Gumba';
-		this.type = GameObject.TYPE_ENEMY;
-
 		this.isFalling = true;
 		this.applyGravity = false;
 
@@ -30,11 +28,6 @@ export default class Gumba extends GameObject {
 	}
 
 	update(frame) {
-		// if (!player.isAlive) {
-		// 	this.sprite.stop();
-		// 	return;
-		// }
-
 		if (!this.isAlive) {
 			this.setFrame('gumba_death.png');
 			return;
@@ -60,24 +53,17 @@ export default class Gumba extends GameObject {
 		super.update(frame);
 	}
 
-	onCollision(gameobject) {
-		super.onCollision(gameobject);
+	playerCollisionHandler(player) {
+		const horizontal = this.bounds.left < player.bounds.right;
+		const vertical = this.bounds.centerY >= player.bounds.bottom;
 
-		if (gameobject.isPlayer) {
-			const horizontal = this.bounds.left < gameobject.bounds.right;
-			const vertical = this.bounds.centerY >= gameobject.bounds.bottom;
+		if (horizontal && vertical) {
+			this.isAlive = false;
+			this.isStatic = true;
+			this.speed.x = 0;
 
-			if (horizontal && vertical) {
-				this.isAlive = false;
-				this.isStatic = true;
-
-				this.speed.x = 0;
-				playSound('stomp');
-
-				setTimeout(() => {
-					this.isGarbage = true;
-				}, 350);
-			}
+			playSound('stomp');
+			setTimeout(() => (this.isGarbage = true), 350);
 		}
 	}
 

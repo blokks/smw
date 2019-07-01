@@ -19,21 +19,20 @@ export default class ShieldedKoopa extends Koopa {
 		}
 	}
 
-	onCollision(gameobject) {
-		if (gameobject.isPlayer) {
-			const horizontal = this.bounds.left < gameobject.bounds.right;
-			const vertical = this.bounds.centerY >= gameobject.bounds.bottom;
+	playerCollisionHandler(player) {
+		console.log('test');
+		const horizontal = this.bounds.left < player.bounds.right;
+		const vertical = this.bounds.centerY >= player.bounds.bottom;
 
-			if (horizontal && vertical) {
-				playSound('stomp');
-
-				if (this.isEnemy) {
-					this.type = GameObject.TYPE_BULLET;
-					this.speed.x = 0;
-				} else {
-					this.speed.x = 5;
-				}
+		if (horizontal && vertical) {
+			if (this.isEnemy) {
+				this.type = GameObject.TYPE_BULLET;
+				this.speed.x = 0;
+			} else {
+				this.speed.x = 5;
 			}
+
+			playSound('stomp');
 		}
 	}
 }
