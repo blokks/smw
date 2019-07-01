@@ -30,7 +30,6 @@ class Game {
 
 		this.world.collisionSolver.on('collision', this.collisionHandler);
 
-		console.log('1');
 		await loadSpritesheet();
 		await loadSounds();
 
@@ -107,6 +106,7 @@ class Game {
 		}
 
 		const formattedScore = this.score < 10 ? '0' + this.score : this.score;
+		document.getElementById('smw-score').innerText = formattedScore;
 	};
 
 	gameEndHandler = () => {};
