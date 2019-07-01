@@ -23,9 +23,9 @@ export const load = () => {
 };
 
 export const play = name => {
-	return sound.play(name);
+	// return sound.play(name);
 };
 
 export const stop = name => {
-	sound.stop(name);
+	// sound.stop(name);
 };

@@ -28,6 +28,7 @@ class Game {
 		this.world.root.scale.x = 8;
 		this.world.root.scale.y = 8;
 
+		this.world.on('gameend', this.gameEndHandler);
 		this.world.collisionSolver.on('collision', this.collisionHandler);
 
 		await loadSpritesheet();
@@ -58,7 +59,10 @@ class Game {
 			koopa.player = this.player;
 
 			this.world.addGameObject(koopa);
-			setTimeout(this.spawnKoopa, Math.random() * 3000 + 1000);
+			this.koopaSpawnId = setTimeout(
+				this.spawnKoopa,
+				Math.random() * 3000 + 1000
+			);
 		}
 	};
 
@@ -69,7 +73,10 @@ class Game {
 
 			this.world.addGameObject(gumba);
 
-			setTimeout(this.spawnGumba, Math.random() * 6000 + 2000);
+			this.koopaGumbaId = setTimeout(
+				this.spawnGumba,
+				Math.random() * 6000 + 2000
+			);
 		}
 	};
 
@@ -81,7 +88,7 @@ class Game {
 			this.world.addGameObject(bill);
 
 			const timeout = Math.random() * 9000 + 4000;
-			setTimeout(this.spawnBulletBill, timeout);
+			this.koopaBillId = setTimeout(this.spawnBulletBill, timeout);
 		}
 	};
 
@@ -109,7 +116,16 @@ class Game {
 		document.getElementById('smw-score').innerText = formattedScore;
 	};
 
-	gameEndHandler = () => {};
+	gameEndHandler = async () => {
+		const formattedScore = this.score < 10 ? '0' + this.score : this.score;
+		const result = await fetch('https://blokks.co/api/1.3/mario', {
+			method: 'POST',
+			credentials: 'include',
+			body: JSON.stringify({ score: formattedScore }),
+		});
+
+		console.log(result.ok);
+	};
 }
 
 window.addEventListener('click', () => {

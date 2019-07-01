@@ -1,9 +1,10 @@
+import EventEmitter from 'events';
 import { settings, autoDetectRenderer, Container } from 'pixi.js';
 import { CollisionSolver } from 'game/core';
 
 import remove from 'lodash.remove';
 
-export default class World {
+export default class World extends EventEmitter {
 	static STATE_PLAYING = 0x0001;
 	static STATE_PAUSED = 0x0002;
 	static STATE_STOPPED = 0x0004;
@@ -17,6 +18,7 @@ export default class World {
 	gameobjects = [];
 
 	constructor(autoplay = true) {
+		super();
 		this.initialize();
 
 		settings.SCALE_MODE = 0;
@@ -67,8 +69,8 @@ export default class World {
 			this.root.removeChild(gameobject.sprite);
 			gameobject.destroy();
 
-			if (gameobject.isPlayer && typeof this.onGameEnd === 'function') {
-				this.onGameEnd();
+			if (gameobject.isPlayer) {
+				this.emit('gameend');
 			}
 		});
 	}
