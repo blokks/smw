@@ -5,6 +5,7 @@
 	"main": "index.js",
 	"scripts": {
 		"start": "npm run web",
+		"build": "parcel build ./src/index.html --out-dir=./dist --no-content-hash",
 		"staging": "NODE_ENV=staging npm run web",
 		"web": "parcel watch ./src/index.html --out-dir=./dist",
 		"reset": "rm -rf node_modules && npm install"

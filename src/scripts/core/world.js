@@ -59,6 +59,12 @@ export default class World extends EventEmitter {
 		this.root.removeChild(gameobject.sprite);
 	}
 
+	removeAllObjects() {
+		this.gameobjects.forEach(gameobject => {
+			this.removeGameObject(gameobject);
+		});
+	}
+
 	collectGarbage() {
 		const removedObjects = remove(
 			this.gameobjects,
@@ -76,6 +82,10 @@ export default class World extends EventEmitter {
 	}
 
 	update(force) {
+		if (!this.playing) {
+			return;
+		}
+
 		const now = Date.now();
 		const difference = now - this.lastUpdateAt;
 
@@ -91,10 +101,7 @@ export default class World extends EventEmitter {
 			this.renderer.render(this.stage);
 		}
 
-		if (this.playing) {
-			requestAnimationFrame(this.update.bind(this));
-		}
-
+		requestAnimationFrame(this.update.bind(this));
 		this.collectGarbage();
 	}
 
@@ -109,5 +116,20 @@ export default class World extends EventEmitter {
 
 	get playing() {
 		return this.state & World.STATE_PLAYING;
+	}
+
+	destroy() {
+		this.removeAllObjects();
+		this.removeAllListeners('this.gameobjects');
+
+		this.collisionSolver.destroy();
+		this.renderer.destroy(true);
+
+		this.stop();
+		// this.refs.gameCanvas.removeChild(this.renderer.view);
+
+		this.collisionSolver = null;
+		this.renderer = null;
+		this.gameobjects = null;
 	}
 }

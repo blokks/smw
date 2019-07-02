@@ -26,6 +26,7 @@ export default class GameObject {
 
 	constructor() {
 		this.initialize();
+		this.enable();
 	}
 
 	initialize() {
@@ -33,8 +34,6 @@ export default class GameObject {
 
 		this.bounds = new Rectangle(0, 0, 0, 0);
 		this.speed = new Point(0, 0);
-
-		this.enable();
 	}
 
 	update() {
@@ -86,8 +85,7 @@ export default class GameObject {
 		}
 	}
 
-	onCollision(gameobject) {
-	}
+	onCollision(gameobject) {}
 
 	get applyGravity() {
 		return this.options & GameObject.OPTION_APPLY_GRAVITY;
@@ -150,27 +148,26 @@ export default class GameObject {
 	}
 
 	enable() {
-		if (this.enabled === false) {
+		if (!this.enabled) {
 			this.enabled = true;
 		}
 	}
 
 	disable() {
-		if (this.enabled === true) {
+		if (this.enabled) {
 			this.enabled = false;
 		}
 	}
 
 	destroy() {
-		if (this.destroyed === false) {
+		if (!this.destroyed) {
 			this.destroyed = true;
 
 			this.sprite.stop();
 			this.sprite.destroy();
 
-			delete this.bounds;
-			delete this.speed;
-			delete this.sprite;
+			this.bounds = null;
+			this.sprite = null;
 		}
 	}
 }

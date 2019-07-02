@@ -25,4 +25,8 @@ export default class CollisionSolver extends EventEmitter {
 			});
 		});
 	}
+
+	destroy() {
+		this.removeAllListeners('collision');
+	}
 }

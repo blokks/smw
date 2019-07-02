@@ -5,7 +5,10 @@ let sound;
 export const load = () => {
 	return new Promise(resolve => {
 		sound = new Howl({
-			src: ['smw.mp3', 'smw.ogg'],
+			src: [
+				`${process.env.ASSETS_URL}/smw.mp3`,
+				`${process.env.ASSETS_URL}/smw.ogg`,
+			],
 			autoplay: false,
 			loop: false,
 			sprite: {
@@ -23,9 +26,13 @@ export const load = () => {
 };
 
 export const play = name => {
-	// return sound.play(name);
+	if (process.env.APP_ENV !== 'development') {
+		return sound.play(name);
+	}
 };
 
 export const stop = name => {
-	// sound.stop(name);
+	if (process.env.APP_ENV !== 'development') {
+		sound.stop(name);
+	}
 };

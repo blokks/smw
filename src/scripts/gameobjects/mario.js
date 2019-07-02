@@ -28,6 +28,8 @@ export default class Mario extends GameObject {
 		this.sprite.play();
 	}
 
+	spawnKoopa = () => {};
+
 	update() {
 		// Mario is death
 		if (!this.isAlive) {
@@ -100,7 +102,7 @@ export default class Mario extends GameObject {
 		}
 	}
 
-	keyDownHandler(event) {
+	keyDownHandler() {
 		switch (event.keyCode) {
 			case 32:
 			case 38:
@@ -109,7 +111,7 @@ export default class Mario extends GameObject {
 		}
 	}
 
-	mouseDownHandler(event) {
+	mouseDownHandler() {
 		this.jump();
 	}
 
@@ -133,11 +135,8 @@ export default class Mario extends GameObject {
 		if (!this.enabled) {
 			super.enable();
 
-			window.addEventListener('keydown', this.keyDownHandler.bind(this));
-			window.addEventListener(
-				'mousedown',
-				this.mouseDownHandler.bind(this)
-			);
+			window.addEventListener('keydown', event => this.keyDownHandler(event));
+			window.addEventListener('mousedown', () => this.mouseDownHandler());
 		}
 	}
 
@@ -145,15 +144,20 @@ export default class Mario extends GameObject {
 		if (this.enabled) {
 			super.disable();
 
-			window.removeEventListener(
-				'keydown',
-				this.keyDownHandler.bind(this)
+			window.removeEventListener('keydown', event =>
+				this.keyDownHandler(event)
 			);
-
 			window.removeEventListener(
 				'mousedown',
-				this.mouseDownHandler.bind(this)
+				() => this.mouseDownHandler
 			);
+		}
+	}
+
+	destroy() {
+		if (!this.destroyed) {
+			super.destroy();
+			this.disable();
 		}
 	}
 }

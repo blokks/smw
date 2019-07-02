@@ -203,7 +203,7 @@
 "meta": {
 	"app": "https://www.codeandweb.com/texturepacker",
 	"version": "1.0",
-	"image": "smw.png",
+	"image": "https://blokks.localhost/mario/dist/smw.png",
 	"format": "RGBA8888",
 	"size": {"w":504,"h":31},
 	"scale": "1",

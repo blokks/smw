@@ -1,3 +1,5 @@
+import EventEmitter from 'events';
+
 import { World } from 'game/core';
 import {
 	BulletBill,
@@ -13,7 +15,7 @@ import {
 } from 'game/assets/sounds';
 import { load as loadSpritesheet } from 'game/assets/spritesheet';
 
-class Game {
+class Game extends EventEmitter {
 	world = new World();
 	groundLevel = 600;
 	gravity = 1.5;
@@ -21,6 +23,7 @@ class Game {
 	player;
 
 	constructor() {
+		super();
 		this.initialize();
 	}
 
@@ -28,16 +31,22 @@ class Game {
 		this.world.root.scale.x = 8;
 		this.world.root.scale.y = 8;
 
-		this.world.on('gameend', this.gameEndHandler);
+		this.world.once('gameend', this.gameEndHandler);
 		this.world.collisionSolver.on('collision', this.collisionHandler);
 
 		await loadSpritesheet();
 		await loadSounds();
 
+		this.emit('gamestart');
 		this.musicId = playSound('music');
 
-		setTimeout(this.spawnMario, 2500);
-		setTimeout(this.spawnKoopa, 3000);
+		if (process.env.APP_ENV === 'development') {
+			this.spawnMario();
+			this.spawnKoopa();
+		} else {
+			setTimeout(this.spawnMario, 2500);
+			setTimeout(this.spawnKoopa, 3000);
+		}
 	}
 
 	spawnMario = () => {
@@ -73,7 +82,7 @@ class Game {
 
 			this.world.addGameObject(gumba);
 
-			this.koopaGumbaId = setTimeout(
+			this.gumbaSpawnId = setTimeout(
 				this.spawnGumba,
 				Math.random() * 6000 + 2000
 			);
@@ -88,7 +97,7 @@ class Game {
 			this.world.addGameObject(bill);
 
 			const timeout = Math.random() * 9000 + 4000;
-			this.koopaBillId = setTimeout(this.spawnBulletBill, timeout);
+			this.billSpawnId = setTimeout(this.spawnBulletBill, timeout);
 		}
 	};
 
@@ -113,21 +122,39 @@ class Game {
 		}
 
 		const formattedScore = this.score < 10 ? '0' + this.score : this.score;
-		document.getElementById('smw-score').innerText = formattedScore;
+		this.emit('scoreupdate', { score: this.score, formattedScore });
 	};
 
 	gameEndHandler = async () => {
 		const formattedScore = this.score < 10 ? '0' + this.score : this.score;
-		const result = await fetch('https://blokks.co/api/1.3/mario', {
-			method: 'POST',
-			credentials: 'include',
-			body: JSON.stringify({ score: formattedScore }),
-		});
-
-		console.log(result.ok);
+		this.emit('gameend', { score: this.score, formattedScore });
 	};
+
+	destroy() {
+		this.world.destroy();
+
+		this.removeAllListeners('gamestart');
+		this.removeAllListeners('scoreupdate');
+		this.removeAllListeners('gameend');
+
+		clearTimeout(this.koopaSpawnId);
+		clearTimeout(this.gumbaSpawnId);
+		clearTimeout(this.billSpawnId);
+
+		this.world = null;
+		this.player = null;
+	}
 }
 
-window.addEventListener('click', () => {
+window.blokks = window.blokks || {};
+window.blokks.MarioGame = Game;
+
+if (process.env.APP_ENV === 'development') {
 	const game = new Game();
-});
+
+	window.addEventListener('keydown', event => {
+		if (event.keyCode === 27) {
+			game.destroy();
+		}
+	});
+}
