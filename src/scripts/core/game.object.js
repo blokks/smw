@@ -49,7 +49,7 @@ export default class GameObject {
 		this.bounds.y += this.speed.y;
 
 		if (this.isAlive) {
-			this.bounds.y = Math.min(this.bounds.y, -1 * this.bounds.height);
+			this.bounds.y = Math.min(this.bounds.y, -1 * this.bounds.height - 5);
 		}
 
 		if (

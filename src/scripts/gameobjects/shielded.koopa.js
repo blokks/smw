@@ -12,7 +12,7 @@ export default class ShieldedKoopa extends Koopa {
 		super.update(frame);
 
 		if (this.isBullet) {
-			this.bounds.y = -16;
+			this.bounds.y = -21;
 			this.sprite.y = this.bounds.top;
 
 			this.setAnimation('shield');
@@ -20,7 +20,6 @@ export default class ShieldedKoopa extends Koopa {
 	}
 
 	playerCollisionHandler(player) {
-		console.log('test');
 		const horizontal = this.bounds.left < player.bounds.right;
 		const vertical = this.bounds.centerY >= player.bounds.bottom;
 

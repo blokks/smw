@@ -33,7 +33,7 @@ export default class Gumba extends Enemy {
 			return;
 		}
 
-		if (this.bounds.bottom === 0) {
+		if (this.bounds.bottom === -5) {
 			this.isFalling = false;
 		}
 

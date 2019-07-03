@@ -61,7 +61,7 @@ export default class Mario extends GameObject {
 		super.update();
 
 		// Reset properties if mario is on the ground
-		if (this.bounds.bottom === 0) {
+		if (this.bounds.bottom === -5) {
 			this.comboCount = 0;
 			this.state &= ~Mario.STATE_INTRO;
 			this.isJumping = false;
@@ -75,7 +75,7 @@ export default class Mario extends GameObject {
 			this.isAlive &&
 			!this.isJumping &&
 			!intro &&
-			this.bounds.bottom === 0
+			this.bounds.bottom === -5
 		) {
 			this.isJumping = true;
 			this.speed.y = -12;
@@ -109,7 +109,6 @@ export default class Mario extends GameObject {
 	keyDownHandler() {
 		switch (event.keyCode) {
 			case 32:
-			case 38:
 				this.jump();
 				break;
 		}
