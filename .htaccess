@@ -1,0 +1,4 @@
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+    RewriteRule ^smw.(js|json|mp3|ogg|png)$ ./dist/smw.$1 [L]
+</IfModule>
