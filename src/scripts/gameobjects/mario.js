@@ -26,6 +26,9 @@ export default class Mario extends GameObject {
 		this.sprite = new AnimatedSprite([texture('mario_jump_down.png')]);
 		this.sprite.animationSpeed = 0.2;
 		this.sprite.play();
+
+		this.mouseDownHandler = this.mouseDownHandler.bind(this);
+		this.keyDownHandler = this.keyDownHandler.bind(this);
 	}
 
 	spawnKoopa = () => {};
@@ -67,6 +70,7 @@ export default class Mario extends GameObject {
 
 	jump() {
 		const intro = this.state & Mario.STATE_INTRO;
+
 		if (
 			this.isAlive &&
 			!this.isJumping &&
@@ -135,8 +139,8 @@ export default class Mario extends GameObject {
 		if (!this.enabled) {
 			super.enable();
 
-			window.addEventListener('keydown', event => this.keyDownHandler(event));
-			window.addEventListener('mousedown', () => this.mouseDownHandler());
+			window.addEventListener('keydown', this.keyDownHandler);
+			window.addEventListener('mousedown', this.mouseDownHandler);
 		}
 	}
 
@@ -144,13 +148,8 @@ export default class Mario extends GameObject {
 		if (this.enabled) {
 			super.disable();
 
-			window.removeEventListener('keydown', event =>
-				this.keyDownHandler(event)
-			);
-			window.removeEventListener(
-				'mousedown',
-				() => this.mouseDownHandler
-			);
+			window.removeEventListener('keydown', this.keyDownHandler);
+			window.removeEventListener('mousedown', this.mouseDownHandler);
 		}
 	}
 

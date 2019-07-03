@@ -57,6 +57,8 @@ export default class World extends EventEmitter {
 	removeGameObject(gameobject) {
 		remove(this.gameobjects, gameobject);
 		this.root.removeChild(gameobject.sprite);
+
+		gameobject.destroy();
 	}
 
 	removeAllObjects() {

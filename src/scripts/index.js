@@ -44,8 +44,8 @@ class Game extends EventEmitter {
 			this.spawnMario();
 			this.spawnKoopa();
 		} else {
-			setTimeout(this.spawnMario, 2500);
-			setTimeout(this.spawnKoopa, 3000);
+			this.marioSpawnId = setTimeout(this.spawnMario, 2500);
+			this.koopaSpawnId = setTimeout(this.spawnKoopa, 3000);
 		}
 	}
 
@@ -137,9 +137,12 @@ class Game extends EventEmitter {
 		this.removeAllListeners('scoreupdate');
 		this.removeAllListeners('gameend');
 
+		clearTimeout(this.marioSpawnId);
 		clearTimeout(this.koopaSpawnId);
 		clearTimeout(this.gumbaSpawnId);
 		clearTimeout(this.billSpawnId);
+
+		stopSound(this.musicId);
 
 		this.world = null;
 		this.player = null;
