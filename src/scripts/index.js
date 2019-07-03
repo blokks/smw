@@ -151,13 +151,3 @@ class Game extends EventEmitter {
 
 window.blokks = window.blokks || {};
 window.blokks.MarioGame = Game;
-
-if (process.env.APP_ENV === 'development') {
-	const game = new Game();
-
-	window.addEventListener('keydown', event => {
-		if (event.keyCode === 27) {
-			game.destroy();
-		}
-	});
-}
