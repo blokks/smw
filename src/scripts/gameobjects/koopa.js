@@ -9,7 +9,7 @@ export default class Koopa extends Enemy {
 		super.initialize();
 
 		this.id = 'Koopa';
-		this.bounds.x = 250;
+		this.bounds.x = window.innerWidth / 8;
 		this.bounds.y = -27;
 		this.bounds.width = 16;
 		this.bounds.height = 27;

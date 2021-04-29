@@ -18,7 +18,7 @@ export default class Mario extends GameObject {
 		this.type = GameObject.TYPE_PLAYER;
 		this.state |= Mario.STATE_INTRO;
 
-		this.bounds.x = 0;
+		this.bounds.x = 10;
 		this.bounds.y = -100;
 		this.bounds.width = 16;
 		this.bounds.height = 28;
@@ -106,7 +106,7 @@ export default class Mario extends GameObject {
 		}
 	}
 
-	keyDownHandler() {
+	keyDownHandler(event) {
 		switch (event.keyCode) {
 			case 32:
 				this.jump();

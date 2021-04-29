@@ -1,13 +1,11 @@
 {
-	"name": "super-mario-world",
+	"name": "smw",
 	"version": "1.0.0",
 	"description": "",
 	"main": "index.js",
 	"scripts": {
 		"start": "parcel watch ./src/scripts/index.js --out-dir=./dist --out-file smw.js",
-		"build": "parcel build ./src/scripts/index.js --out-dir=./dist --out-file smw.js --no-content-hash",
-		"staging": "NODE_ENV=staging npm run web",
-		"reset": "rm -rf node_modules && npm install"
+		"build": "parcel build ./src/scripts/index.js --out-dir=./dist --out-file smw.js --no-content-hash"
 	},
 	"author": "",
 	"license": "ISC",
@@ -16,30 +14,26 @@
 		"watcherGlob": "**"
 	},
 	"dependencies": {
-		"games": "0.0.7",
-		"howler": "^2.1.2",
+		"howler": "^2.2.1",
 		"lodash.invoke": "^4.5.2",
 		"lodash.remove": "^4.7.0",
-		"parcel-plugin-static-files-copy": "^2.1.2",
-		"pixi": "^0.3.1",
-		"pixi.js": "^5.0.4"
+		"parcel-plugin-static-files-copy": "^2.6.0",
+		"pixi.js": "^5.3.9"
 	},
 	"devDependencies": {
-		"@babel/core": "^7.4.5",
-		"@babel/plugin-proposal-class-properties": "^7.4.4",
-		"@babel/plugin-proposal-export-default-from": "^7.2.0",
-		"@babel/plugin-proposal-export-namespace-from": "^7.2.0",
-		"@babel/plugin-transform-runtime": "^7.4.4",
-		"@babel/preset-env": "^7.4.5",
+		"@babel/core": "^7.13.16",
+		"@babel/plugin-proposal-export-default-from": "^7.12.13",
+		"@babel/plugin-transform-runtime": "^7.13.15",
+		"@babel/preset-env": "^7.13.15",
 		"babel-plugin-module-resolver": "^3.2.0",
 		"eslint": "^5.16.0",
-		"eslint-config-airbnb": "^17.1.0",
-		"eslint-config-prettier": "^6.0.0",
-		"eslint-plugin-import": "^2.18.0",
-		"eslint-plugin-jsx-a11y": "^6.2.1",
-		"eslint-plugin-prettier": "^3.1.0",
-		"eslint-plugin-react": "^7.14.2",
-		"parcel-bundler": "^1.12.3",
-		"prettier": "^1.18.2"
+		"eslint-config-airbnb": "^17.1.1",
+		"eslint-config-prettier": "^6.15.0",
+		"eslint-plugin-import": "^2.22.1",
+		"eslint-plugin-jsx-a11y": "^6.4.1",
+		"eslint-plugin-prettier": "^3.4.0",
+		"eslint-plugin-react": "^7.23.2",
+		"parcel-bundler": "^1.12.5",
+		"prettier": "^1.19.1"
 	}
 }

@@ -1,19 +1,13 @@
 import EventEmitter from 'events';
 
 import { World } from 'game/core';
-import {
-	BulletBill,
-	Gumba,
-	Koopa,
-	ShieldedKoopa,
-	Mario,
-} from 'game/gameobjects';
+import { BulletBill, Gumba, Koopa, ShieldedKoopa, Mario } from 'game/gameobjects';
+import { load as loadSpritesheet } from 'game/assets/spritesheet';
 import {
 	load as loadSounds,
 	play as playSound,
 	stop as stopSound,
 } from 'game/assets/sounds';
-import { load as loadSpritesheet } from 'game/assets/spritesheet';
 
 class Game extends EventEmitter {
 	world = new World();
@@ -40,13 +34,8 @@ class Game extends EventEmitter {
 		this.emit('gamestart');
 		this.musicId = playSound('music');
 
-		if (process.env.APP_ENV === 'development') {
-			this.spawnMario();
-			this.spawnKoopa();
-		} else {
-			this.marioSpawnId = setTimeout(this.spawnMario, 2500);
-			this.koopaSpawnId = setTimeout(this.spawnKoopa, 3000);
-		}
+		this.marioSpawnId = setTimeout(this.spawnMario, 2500);
+		this.koopaSpawnId = setTimeout(this.spawnKoopa, 3000);
 	}
 
 	spawnMario = () => {
@@ -56,10 +45,10 @@ class Game extends EventEmitter {
 
 	spawnKoopa = () => {
 		if (this.world.playing) {
-			const index = Math.ceil(Math.random() * 4);
+			const index = Math.ceil(Math.random() * 3);
 
 			let koopa;
-			if (index === 4 && this.score >= 4) {
+			if (index === 3 && this.score >= 3) {
 				koopa = new ShieldedKoopa();
 			} else {
 				koopa = new Koopa();
@@ -149,5 +138,5 @@ class Game extends EventEmitter {
 	}
 }
 
-window.blokks = window.blokks || {};
-window.blokks.MarioGame = Game;
+window.drivethru = window.drivethru || {};
+window.drivethru.SMWGame = Game;
